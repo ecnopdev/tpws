@@ -24,11 +24,10 @@
         class="mb-5"
         cols="12"
       >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
         <v-row justify="center">
+          
+          <v-btn @click="createUser">Create User</v-btn>
+
         </v-row>
       </v-col>
 
