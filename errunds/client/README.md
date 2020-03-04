@@ -1,4 +1,4 @@
-# client
+# Front-end (VueJS + Vuetify)
 
 ## Project setup
 ```
