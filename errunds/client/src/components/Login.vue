@@ -24,7 +24,7 @@ export default {
 
   methods: {
     submit() {
-      this.$router.push("/");
+      this.$router.push("/" + this.name);
     },
     clear() {
       this.$v.$reset();

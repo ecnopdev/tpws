@@ -4,6 +4,7 @@ import Dashboard from '@/components/Dashboard'
 
 const routes = [
     { path: '/login', component: Login },
+    { path: '/:name', component: Dashboard },
     { path: '/', component: Dashboard }
   ]
 

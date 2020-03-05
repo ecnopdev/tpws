@@ -7,6 +7,7 @@
 
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">Errunds</h1>
+        Welcome {{name}}!
 
         <p class="subheading font-weight-regular"></p>
       </v-col>
@@ -37,7 +38,12 @@
 export default {
   name: "Dashboard",
   data: () => ({
+    currentUser:"",
+    name:""
   }),
+  mounted: function(){
+    this.name = this.$route.params.name;
+  },
   methods: {
     createUser() {
       this.$store.dispatch("user/create");
