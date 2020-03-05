@@ -8,9 +8,9 @@ export default new Vuex.Store({
         booking
     },
     state:{
-        apiHost:"http://localhost",
-        apiPort:"8080",
-        apiBasePath:"/tpws/errunds/server/api"
+        apiHost : process.env.VUE_APP_API_HOST,
+        apiPort : process.env.VUE_APP_API_PORT,
+        apiBasePath : process.env.VUE_APP_API_BASE_PATH
     },
     mutations:{},
     actions:{}
