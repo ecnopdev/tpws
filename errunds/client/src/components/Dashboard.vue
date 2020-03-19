@@ -26,7 +26,7 @@
 
       <v-col class="mb-5" cols="12">
         <v-row justify="center">
-          <v-btn @click="signIn">Sign-In</v-btn>
+          <v-btn @click="signOut">Sign-Out</v-btn>
         </v-row>
       </v-col>
 
@@ -51,7 +51,8 @@ export default {
     createBooking() {
       this.$store.dispatch("booking/create");
     },
-    signIn() {
+    signOut() {
+      this.$store.commit('user/setActiveUser',null);
       this.$router.push('/login');
     }
   }

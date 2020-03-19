@@ -24,6 +24,7 @@ export default {
 
   methods: {
     submit() {
+      this.$store.commit('user/setActiveUser',this.name);
       this.$router.push("/" + this.name);
     },
     clear() {

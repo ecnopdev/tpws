@@ -8,6 +8,28 @@ const routes = [
     { path: '/', component: Dashboard }
   ]
 
-export default new VueRouter({
-    routes
+const router = new VueRouter({
+  routes
 });
+
+router.beforeEach((to, from, next) => {
+  console.log(from);
+  console.log(to);
+  console.log(router.app.$store.getters['user/getActiveUser']);
+  if(router.app.$store.getters['user/getActiveUser'] !== null){
+    if(to.path != "/"){ 
+      next('/');
+    }else{ 
+      next();
+    }
+  }else{
+    if(to.path != "/login"){
+      next('/login');
+    }else {
+      next();
+    }  
+  }  
+})
+
+
+export default router;

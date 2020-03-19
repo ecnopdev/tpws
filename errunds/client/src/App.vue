@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark v-if="$route.path !='/login'">
       <div class="d-flex align-center">
         <div class="headline">Errunds</div>
       </div>
