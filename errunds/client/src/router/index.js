@@ -1,11 +1,15 @@
 import VueRouter from '@/plugins/vue-router'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
+import Profile from '@/components/Profile'
+import Booking from '@/components/Booking'
 
 const routes = [
     { path: '/login', component: Login },
-    { path: '/:name', component: Dashboard },
-    { path: '/', component: Dashboard }
+    { path: '/profile', component: Profile },
+    { path: '/:id', component: Dashboard },
+    { path: '/', component: Dashboard },
+    { path: '/booking/:id', component: Booking }
   ]
 
 const router = new VueRouter({
@@ -13,21 +17,26 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(from);
-  console.log(to);
-  console.log(router.app.$store.getters['user/getActiveUser']);
-  if(router.app.$store.getters['user/getActiveUser'] !== null){
-    if(to.path != "/"){ 
-      next('/');
-    }else{ 
+  const currentUser = router.app.$store.getters['user/getActiveUser'];
+  if(currentUser == null){
+    if(to.path != '/login'){
+      next({
+          path: '/login',
+          params: { nextUrl: to.fullPath }
+      });
+    }else {
       next();
     }
   }else{
-    if(to.path != "/login"){
-      next('/login');
-    }else {
+    if(to.path == '/login'){
+      next({
+        path: '/',
+        params: { nextUrl: to.fullPath }
+      });
+    }else{
       next();
-    }  
+    }
+
   }  
 })
 
