@@ -24,6 +24,12 @@ export default {
             return Vue.axios.post(`${apiPath}/booking/create_booking.php`,payload);
        
         },
+        update: (context,payload) => {    
+            const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
+           
+            return Vue.axios.put(`${apiPath}/booking/update_booking.php`,payload);
+            
+        },
         delete: (context,payload) => {    
             const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
            

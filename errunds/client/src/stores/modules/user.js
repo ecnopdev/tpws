@@ -20,14 +20,10 @@ export default {
         authenticate: (context,params) => {
             const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
             
-            //replace this code with the correct authentication function
-            const customerID = params.username == 'usermike'? 1 : 2;
-            Vue.axios.get(`${apiPath}/customer/read_single_customer.php?id=${customerID}`)
-            .then(results => {
-                context.commit('setActiveUser',results.data);
-                params.vm.$router.push("/" + results.data.first_name);
-            })
-            .catch(error => console.log(error));
+            return Vue.axios.post(`${apiPath}/customer/login_customer.php`,{
+                username:params.username,
+                password:params.password
+            });
         },
         signOut: (context,params) => {
             context.state.activeUser = null;

@@ -7,7 +7,6 @@ import Booking from '@/components/Booking'
 const routes = [
     { path: '/login', component: Login },
     { path: '/profile', component: Profile },
-    { path: '/:id', component: Dashboard },
     { path: '/', component: Dashboard },
     { path: '/booking/:id', component: Booking }
   ]

@@ -31,6 +31,21 @@ export default {
           username:this.name,
           password:this.password,
           vm:this
+      })
+      .then(results => {
+          console.log(results);
+          if(results.data !== 'Login failed'){
+              this.$store.commit('user/setActiveUser',results.data);
+              this.$router.push("/");
+          }else{
+              this.$store.commit('setSnackBarText',"Invalid Credentials!");
+              this.$store.commit('showSnackBar');
+          }    
+      })
+      .catch(error => {
+          console.log(error);
+          this.$store.commit('setSnackBarText',"Authentication Failed!");
+          this.$store.commit('showSnackBar');
       });
 
     },

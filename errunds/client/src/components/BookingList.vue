@@ -2,7 +2,16 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-data-table :headers="headers" :items="items" sort-by="booking_date" class="elevation-1">
+        <v-data-table
+          :headers="headers"
+          :items="items"
+          sort-by="booking_date"
+          :sort-desc="true"
+          class="elevation-1"
+        >
+          <template v-slot:item.status="{ item }">
+            <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item.id)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItem(item.id)">mdi-delete</v-icon>
@@ -23,7 +32,7 @@ export default {
       {
         text: "Booking Date",
         align: "start",
-        sortable: false,
+        sortable: true,
         value: "booking_date"
       },
       { text: "Worker Name", value: "worker_fullname" },
@@ -100,6 +109,14 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    getColor(status) {
+      if (status == "pending") return "red";
+      if (status == "rejected") return "blue";
+      if (status == "scheduled") return "blue";
+      if (status == "ongoing") return "orange";
+
+      return "green";
     }
   }
 };

@@ -3,12 +3,12 @@
     <v-row>
       <v-col class="mb-4">
         <v-form>
- 
+        <p>Username: {{ userInfo.username }}</p>
         <v-text-field label="First Name" v-model="userInfo.first_name"></v-text-field>
         <v-text-field label="Last Name" v-model="userInfo.last_name"></v-text-field>
         <v-text-field label="Address" v-model="userInfo.address"></v-text-field>
-        <v-text-field label="Email" v-model="userInfo.contact"></v-text-field>
-        <v-text-field label="Contact" v-model="userInfo.email"></v-text-field>
+        <v-text-field label="Email" v-model="userInfo.email"></v-text-field>
+        <v-text-field label="Contact" v-model="userInfo.contact"></v-text-field>
 
         <div class="d-flex flex-row">
           <v-btn @click="goBack">Back</v-btn>
@@ -33,6 +33,7 @@ export default {
     },
     beforeMount: function(){
       const activeUser = this.$store.getters["user/getActiveUser"];
+      console.log(activeUser);
       Object.assign(this.userInfo,activeUser);
 
     },
