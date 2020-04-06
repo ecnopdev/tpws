@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col class="mb-4">
+        <h1>Profile Information</h1>
         <v-form>
         <p>Username: {{ userInfo.username }}</p>
         <v-text-field label="First Name" v-model="userInfo.first_name"></v-text-field>
