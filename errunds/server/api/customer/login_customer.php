@@ -1,8 +1,9 @@
 <?php
 
 //headers
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
 
 include_once('../../config/Database.php');
 include_once('../../models/Customer.php');
@@ -28,6 +29,11 @@ $customer->login_customer();
 //create array
 $user_array = array(
     'id' => $customer->id,
+    'first_name' => $customer->first_name,
+    'last_name' => $customer->last_name,
+    'email' => $customer->email,
+    'address' => $customer->address,
+    'contact' => $customer->contact,
     'username' => $customer->username,
     'password' => $customer->password,
 );

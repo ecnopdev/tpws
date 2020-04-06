@@ -25,7 +25,8 @@ class Customer{
   public function login_customer(){
   
     //create query
-    $query = 'SELECT customer.id, customer.username, customer.password 
+    $query = 'SELECT customer.id, customer.first_name, customer.last_name, customer.email, customer.address, 
+    customer.contact, customer.username, customer.password 
                 FROM customer 
                 WHERE customer.username = ?
                 AND customer.password = ?';
@@ -44,12 +45,16 @@ class Customer{
 
     //set properties
     $this->id = $row['id'];
+    $this->first_name = $row['first_name'];
+    $this->last_name = $row['last_name'];
+    $this->email = $row['email'];
+    $this->address = $row['address'];
+    $this->contact = $row['contact'];
     $this->username = $row['username'];
     $this->password = $row['password'];
 
   }
 
-  
 
   // get single customer
   public function read_single_customer(){
