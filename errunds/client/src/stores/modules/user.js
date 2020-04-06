@@ -3,7 +3,7 @@ import Vue from 'vue'
 export default {
     namespaced:true,
     state:{
-        activeUser: null
+        activeUser: JSON.parse(localStorage.getItem('activeUser')) || null
     },
     getters:{
         getActiveUser(state) {
@@ -13,20 +13,28 @@ export default {
     mutations:{
         setActiveUser(context,params){
             context.activeUser = params;
+            localStorage.setItem('activeUser',JSON.stringify(params));
         }
     },
     actions:{
-        create: (context) => {       
+        authenticate: (context,params) => {
             const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
             
-            const payload = {
-                name: "Test User name",
-                type: "Customer",
-            };
-
-            Vue.axios.post(`${apiPath}/user/createUser.php`,{payload})
-            .then(results => console.log(results))
-            .catch(error => console.log(error));
-        }
+            return Vue.axios.post(`${apiPath}/customer/login_customer.php`,{
+                username:params.username,
+                password:params.password
+            });
+        },
+        signOut: (context,params) => {
+            context.state.activeUser = null;
+            localStorage.setItem('activeUser',null);
+            params.vm.$router.push("/login");
+        },
+        update: (context,payload) => {    
+            const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
+           
+            return Vue.axios.put(`${apiPath}/customer/update_customer.php`,payload);
+            
+        },
     },
 }

@@ -1,13 +1,15 @@
 <template>
-  <v-container class="pa-3">
-    <form>
-      <v-text-field v-model="name" label="Username"></v-text-field>
-      <v-text-field v-model="email" label="Password" type="password"></v-text-field>
-      <v-select v-model="select" :items="items" label="User Type" required></v-select>
-
-      <v-btn class="mr-4" @click="submit">Login</v-btn>
-      <v-btn @click="clear">clear</v-btn>
-    </form>
+  <v-container fill-height>
+    <v-row>
+      <v-col align="center" justify="center" class="pa-6">
+        <form style="max-width:400px">
+          <v-img :src="require('../assets/errunds-logo.svg')"></v-img>
+          <v-text-field v-model="name" label="Username"></v-text-field>
+          <v-text-field v-model="password" label="Password" type="password"></v-text-field>
+          <v-btn class="mr-4" @click="submit" width="100%" color="primary">Submit</v-btn>
+        </form>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -15,7 +17,7 @@
 export default {
   data: () => ({
     name: "",
-    email: "",
+    password: "",
     select: null,
     items: ["Customer", "Worker"],
     checkbox: false
@@ -24,8 +26,28 @@ export default {
 
   methods: {
     submit() {
-      this.$store.commit('user/setActiveUser',this.name);
-      this.$router.push("/" + this.name);
+
+      this.$store.dispatch("user/authenticate",{
+          username:this.name,
+          password:this.password,
+          vm:this
+      })
+      .then(results => {
+          console.log(results);
+          if(results.data !== 'Login failed'){
+              this.$store.commit('user/setActiveUser',results.data);
+              this.$router.push("/");
+          }else{
+              this.$store.commit('setSnackBarText',"Invalid Credentials!");
+              this.$store.commit('showSnackBar');
+          }    
+      })
+      .catch(error => {
+          console.log(error);
+          this.$store.commit('setSnackBarText',"Authentication Failed!");
+          this.$store.commit('showSnackBar');
+      });
+
     },
     clear() {
       this.$v.$reset();
