@@ -22,6 +22,34 @@ class Worker{
     $this->conn = $db;
   }
 
+  // check if worker username exists in the database
+  public function login_worker(){
+  
+    //create query
+    $query = 'SELECT worker.id, worker.username, worker.password 
+                FROM worker 
+                WHERE worker.username = ?
+                AND worker.password = ?';
+
+    //prepare statement
+    $stmt = $this->conn->prepare($query);
+
+    //bind data
+    $stmt->bindParam(1, $this->username);
+    $stmt->bindParam(2, $this->password);
+
+    //execute $query
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //set properties
+    $this->id = $row['id'];
+    $this->username = $row['username'];
+    $this->password = $row['password'];
+
+  }
+
   //get workers
   public function read_workers(){
     $start_time = isset($_GET['start_time']) ? $_GET['start_time'] : die();

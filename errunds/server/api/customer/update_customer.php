@@ -46,7 +46,6 @@ if(isset($payload->data)){
     $customer->address = $data->address;
     $customer->contact = $data->contact;
     $customer->username = $data->username;
-    $customer->password = $data->password;
 
     //update customer
     if($customer->update_customer()){

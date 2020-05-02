@@ -10,46 +10,37 @@ require_once("../../auth/AuthClient.php");
 //headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-
 include_once('../../config/Database.php');
-include_once('../../models/Customer.php');
+include_once('../../models/Worker.php');
 
 //instantiate db and connect
 $database = new Database();
 $db = $database->connect();
 
-//instantiate Customer object
-$customer = new Customer($db);
+//instantiate Worker object
+$worker = new Worker($db);
 
 //get raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
 //get username and password
-$customer->username = $data->username;
-$customer->password = $data->password;
+$worker->username = $data->username;
+$worker->password = $data->password;
 
-//get customer
-$customer->login_customer();
+//get worker
+$worker->login_worker();
 
 
 //create array
 $user_array = array(
-    'id' => $customer->id,
-    'first_name' => $customer->first_name,
-    'last_name' => $customer->last_name,
-    'email' => $customer->email,
-    'address' => $customer->address,
-    'contact' => $customer->contact,
-    'username' => $customer->username,
-    //'password' => $customer->password,
+    'id' => $worker->id,
+    'username' => $worker->username,
+    'password' => $worker->password,
 );
 
-
-
-if($customer->username == null) {
+if($worker->username == null) {
     print_r(json_encode("Login failed"));
 }else{
     //FOR AUTHORIZATION

@@ -21,6 +21,40 @@ class Customer{
   }
 
 
+  // check if customer username exists in the database
+  public function login_customer(){
+  
+    //create query
+    $query = 'SELECT customer.id, customer.first_name, customer.last_name, customer.email, customer.address, 
+    customer.contact, customer.username, customer.password 
+                FROM customer 
+                WHERE customer.username = ?
+                AND customer.password = ?';
+
+    //prepare statement
+    $stmt = $this->conn->prepare($query);
+
+    //bind data
+    $stmt->bindParam(1, $this->username);
+    $stmt->bindParam(2, $this->password);
+
+    //execute $query
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //set properties
+    $this->id = $row['id'];
+    $this->first_name = $row['first_name'];
+    $this->last_name = $row['last_name'];
+    $this->email = $row['email'];
+    $this->address = $row['address'];
+    $this->contact = $row['contact'];
+    $this->username = $row['username'];
+    $this->password = $row['password'];
+
+  }
+
 
   // get single customer
   public function read_single_customer(){
