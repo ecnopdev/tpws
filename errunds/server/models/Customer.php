@@ -97,8 +97,7 @@ class Customer{
               email = :email, 
               address = :address,
               contact = :contact,
-              username = :username,
-              password = :password 
+              username = :username
               WHERE
                 customer.id = :id';
 
