@@ -35,7 +35,8 @@ export default {
       .then(results => {
           console.log(results);
           if(results.data !== 'Login failed'){
-              this.$store.commit('user/setActiveUser',results.data);
+              this.$store.commit('user/setActiveUser',results.data["user_array"]);
+              this.$store.commit('user/setAccessToken',results.data["token"]);
               this.$router.push("/");
           }else{
               this.$store.commit('setSnackBarText',"Invalid Credentials!");

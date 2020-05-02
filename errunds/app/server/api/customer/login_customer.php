@@ -1,18 +1,10 @@
 <?php
 
-//FOR AUTHORIZATION
-//==========================================
-ini_set("display_errors", 1);
-
-require_once("../../auth/AuthClient.php");
-//==========================================
-
 //headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
+header('Access-Control-Allow-Headers: Content-Type');
 
 include_once('../../config/Database.php');
 include_once('../../models/Customer.php');
@@ -44,22 +36,14 @@ $user_array = array(
     'address' => $customer->address,
     'contact' => $customer->contact,
     'username' => $customer->username,
-    //'password' => $customer->password,
+    'password' => $customer->password,
 );
-
-
 
 if($customer->username == null) {
     print_r(json_encode("Login failed"));
 }else{
-    //FOR AUTHORIZATION
-    //======================================================
-    $auth = new AuthClient($user_array, null);
-    $returned_array = $auth->login_auth();
-    
     //make JSON
-    print_r(json_encode($returned_array));
-    //=====================================================
+    print_r(json_encode($user_array));
 }
 
 

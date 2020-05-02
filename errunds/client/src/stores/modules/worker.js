@@ -18,10 +18,12 @@ export default {
     actions: {
         getAll: (context, params) => {
             const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
-            console.log(params);
             const apiParams = `booking_date=${params.bookingDate}&start_time=${params.startTime}&end_time=${params.endTime}`;
+            const accessToken = context.rootState.user.accessToken;
 
-            return Vue.axios.get(`${apiPath}/worker/read_workers.php?${apiParams}`);
+            return Vue.axios.get(`${apiPath}/worker/read_workers.php?${apiParams}`,{
+                headers: { 'Authorization': accessToken }
+            });
         }
     },
 }
