@@ -111,7 +111,6 @@ class Customer{
     $this->address = htmlspecialchars(strip_tags($this->address));
     $this->contact = htmlspecialchars(strip_tags($this->contact));
     $this->username = htmlspecialchars(strip_tags($this->username));
-    $this->password = htmlspecialchars(strip_tags($this->password));
 
 
     //bind data
@@ -122,7 +121,6 @@ class Customer{
     $stmt->bindParam(':address', $this->address);
     $stmt->bindParam(':contact', $this->contact);
     $stmt->bindParam(':username', $this->username);
-    $stmt->bindParam(':password', $this->password);
 
 
     //execute query
