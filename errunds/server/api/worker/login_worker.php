@@ -1,5 +1,12 @@
 <?php
 
+//FOR AUTHORIZATION
+//==========================================
+ini_set("display_errors", 1);
+
+require_once("../../auth/AuthClient.php");
+//==========================================
+
 //headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -35,8 +42,14 @@ $user_array = array(
 if($worker->username == null) {
     print_r(json_encode("Login failed"));
 }else{
+    //FOR AUTHORIZATION
+    //======================================================
+    $auth = new AuthClient($user_array, null);
+    $returned_array = $auth->login_auth();
+    
     //make JSON
-    print_r(json_encode($user_array));
+    print_r(json_encode($returned_array));
+    //=====================================================
 }
 
 
