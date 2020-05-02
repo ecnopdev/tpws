@@ -19,7 +19,8 @@
                     <v-select
                       label="Job Type"
                       v-model="jobType"
-                      :items="['Laundry','House Keeping']"
+                      :items="jobOptions"
+                      required
                     ></v-select>
                     <DatePicker v-model="bookingDate"></DatePicker>
                     <div class="d-flex flex-row align-center">
@@ -88,7 +89,8 @@ export default {
     name: "",
     search: false,
     timeOptions: [],
-    jobType: "Laundry",
+    jobOptions: [],
+    jobType: 1,
     bookingDate: new Date().toISOString().substr(0, 10),
     startTime: "",
     endTime: "",
@@ -105,6 +107,30 @@ export default {
   mounted: function() {
     this.name = this.$route.params.name;
     this.timeOptions = this.getTimeOptions();
+
+    this.getJobOptions();
+  },
+  watch: {
+    jobType () {
+      this.availableWorkers = [];
+    },
+    bookingDate () {
+      this.availableWorkers = [];
+    },
+    startTime (newVal){
+      if (this.getNumTimeValue(newVal) > this.getNumTimeValue(this.endTime)){
+        this.endTime = this.getAdjustedTime(newVal,1);
+      }
+
+      this.availableWorkers = [];
+    },
+    endTime (newVal){
+      if(this.getNumTimeValue(newVal) < this.getNumTimeValue(this.startTime)){
+        this.startTime = this.getAdjustedTime(newVal,-1);
+      }
+
+      this.availableWorkers = [];
+    }
   },
   methods: {
     createBooking(workerID) {
@@ -141,10 +167,32 @@ export default {
       this.$store.commit("user/setAccessToken", null);
       this.$router.push("/login");
     },
+    getPaddedTimeValue(numTime){
+      return numTime < 10 ? "0" + numTime : numTime
+    },
+    getNumTimeValue(strTime){
+      if(strTime){
+        return parseInt(strTime.replace(':',''));
+      }else{
+        return strTime;
+      }  
+    },
+    getAdjustedTime(strTime,numAdjust){
+      if(strTime){
+        const splitTimes = strTime.split(':');
+        const strHour = splitTimes[0];
+        const strMin = splitTimes[1];
+        const numHour = parseInt(strHour) + numAdjust;
+
+        return this.getPaddedTimeValue(numHour) + ":" + strMin;
+      }else{
+        return strTime;
+      }
+    },
     getTimeOptions() {
       let timeOptions = [];
       for (var i = 0; i < 24; i++) {
-        const timePadded = i < 10 ? "0" + i : i;
+        const timePadded = this.getPaddedTimeValue(i);
         timeOptions.push(`${timePadded}:00`);
         timeOptions.push(`${timePadded}:30`);
       }
@@ -162,12 +210,37 @@ export default {
           this.availableWorkers = [];
           results.data.data.forEach(item => {
             item.average_rating = parseInt(item.average_rating);
-            this.availableWorkers.push(item);
+            //filter by job
+            console.log(item);
+            console.log("FILTER JOB TYPE: " + this.jobType);
+            if(this.jobType == item.job_id){
+              this.availableWorkers.push(item);
+            } 
           });
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    getJobOptions() {
+      this.$store
+        .dispatch("job/getAll")
+        .then( results => {
+          results.data.data.forEach(jobItem => {
+            this.jobOptions.push({
+              text: jobItem.name,
+              value: jobItem.id
+            });
+          })
+          
+        })
+        .catch( error => {
+          console.log(error);
+          this.jobOptions = [
+            {text:"Laundry",value:1}
+          ];
+        })
+
     },
     clearSearch(){
       this.availableWorkers = [];

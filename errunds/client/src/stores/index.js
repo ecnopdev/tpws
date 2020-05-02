@@ -2,12 +2,14 @@ import Vuex from '@/plugins/vuex';
 import user from '@/stores/modules/user'
 import booking from '@/stores/modules/booking'
 import worker from '@/stores/modules/worker'
+import job from '@/stores/modules/job'
 
 export default new Vuex.Store({
     modules: {
         user,
         booking,
-        worker
+        worker,
+        job
     },
     state:{
         apiHost : process.env.VUE_APP_API_HOST,
