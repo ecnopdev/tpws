@@ -14,7 +14,7 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item.id)">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItem(item.id)">mdi-delete</v-icon>
+            <v-icon small v-if="item.status == 'pending'" @click="checkDelete(item.id)">mdi-delete</v-icon>
           </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -22,6 +22,19 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="dialog" persistent max-width="320">
+      <v-card>
+        <v-card-title class="headline">Cancel / Delete Booking</v-card-title>
+        <v-card-text>Are you sure you want to delete this booking request?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">No</v-btn>
+          <v-btn color="green darken-1" text @click="deleteItem">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 <script>
@@ -56,7 +69,8 @@ export default {
       fat: 0,
       carbs: 0,
       protein: 0
-    }
+    },
+    itemToBeDeleted:-1,
   }),
   computed: {
     activeUser() {
@@ -71,8 +85,13 @@ export default {
     editItem(bookingID) {
       this.$router.push(`/booking/${bookingID}`);
     },
-    deleteItem(bookingID) {
-      const params = { id: bookingID };
+    checkDelete(bookingID) {
+      this.itemToBeDeleted = bookingID;
+      this.dialog = true;
+    },  
+    deleteItem() {
+      const params = { id: this.itemToBeDeleted };
+      console.log(params);
 
       this.$store
         .dispatch("booking/delete", params)
@@ -84,9 +103,11 @@ export default {
           );
           this.$store.commit("showSnackBar");
           this.search = false;
+          this.dialog = false;
           this.refreshItems();
         })
         .catch(error => {
+          this.dialog = false;
           console.log(error);
           this.$store.commit(
             "setSnackBarText",
