@@ -138,6 +138,7 @@ export default {
     },
     signOut() {
       this.$store.commit("user/setActiveUser", null);
+      this.$store.commit("user/setAccessToken", null);
       this.$router.push("/login");
     },
     getTimeOptions() {
