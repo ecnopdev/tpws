@@ -32,11 +32,11 @@ if(isset($payload->data)){
     //instantiate Booking object
     $booking = new Booking($db);
 
-    //get User ID
-    $booking->customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : die();
+    //get Worker ID
+    $booking->worker_id = isset($_GET['worker_id']) ? $_GET['worker_id'] : die();
 
     //booking query
-    $result = $booking->read_customer_bookings();
+    $result = $booking->read_worker_bookings();
 
     //get row count
     $row_count = $result->rowCount();
@@ -63,7 +63,7 @@ if(isset($payload->data)){
           'worker_firstname' => $worker_firstname,
           'worker_lastname' => $worker_lastname, 
           'customer_firstname' => $customer_firstname,
-          'customer_lastname' => $customer_lastname
+          'customer_lastname' => $customer_lastname 
         );
 
         //push to data

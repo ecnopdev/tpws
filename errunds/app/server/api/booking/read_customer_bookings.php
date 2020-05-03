@@ -61,7 +61,9 @@ if(isset($payload->data)){
           'customer_id' => $customer_id,
           'worker_id' => $worker_id,
           'worker_firstname' => $worker_firstname,
-          'worker_lastname' => $worker_lastname 
+          'worker_lastname' => $worker_lastname, 
+          'customer_firstname' => $customer_firstname,
+          'customer_lastname' => $customer_lastname
         );
 
         //push to data

@@ -4,7 +4,7 @@
       <v-col>
         <v-dialog v-model="search">
           <template v-slot:activator="{on}">
-            <v-btn color="primary" v-on="on">New Booking</v-btn>
+            <v-btn v-if="activeRole == 'Customer'" color="primary" v-on="on">New Booking</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -99,6 +99,9 @@ export default {
   computed: {
     activeUser() {
       return this.$store.getters["user/getActiveUser"];
+    },
+    activeRole() {
+      return this.$store.getters["user/getActiveRole"];
     },
     convertRating(strRating) {
       return parseInt(strRating);
