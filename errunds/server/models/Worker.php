@@ -137,10 +137,7 @@ class Worker{
                 email = :email, 
                 address = :address, 
                 contact = :contact,
-                username = :username,
-                password = :password,
-                average_rating = :average_rating,
-                job_id = :job_id
+                username = :username
               WHERE
                 worker.id = :id';
 
@@ -154,7 +151,6 @@ class Worker{
     $this->address = htmlspecialchars(strip_tags($this->address));
     $this->contact = htmlspecialchars(strip_tags($this->contact));
     $this->username = htmlspecialchars(strip_tags($this->username));
-    $this->password = htmlspecialchars(strip_tags($this->password));
 
 
     //bind data
@@ -164,11 +160,7 @@ class Worker{
     $stmt->bindParam(':address', $this->address);
     $stmt->bindParam(':contact', $this->contact);
     $stmt->bindParam(':username', $this->username);
-    $stmt->bindParam(':password', $this->password);
-    $stmt->bindParam(':average_rating', $this->average_rating);
-    $stmt->bindParam(':job_id', $this->job_id);
     $stmt->bindParam(':id', $this->id);
-
 
     //execute query
     if($stmt->execute()){

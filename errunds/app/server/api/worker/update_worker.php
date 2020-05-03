@@ -46,9 +46,6 @@ if(isset($payload->data)){
     $worker->address = $data->address;
     $worker->contact = $data->contact;
     $worker->username = $data->username;
-    $worker->password = $data->password;
-    $worker->average_rating = $data->average_rating;
-    $worker->job_id = $data->job_id;
 
     //update worker
     if($worker->update_worker()){
