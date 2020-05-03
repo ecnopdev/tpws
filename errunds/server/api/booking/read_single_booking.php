@@ -51,8 +51,9 @@ if(isset($payload->data)){
         'customer_id' => $booking->customer_id,
         'worker_id' => $booking->worker_id,
         'worker_firstname' => $booking->worker_firstname,
-        'worker_lastname' => $booking->worker_lastname 
-
+        'worker_lastname' => $booking->worker_lastname,
+        'customer_firstname' => $booking->customer_firstname,
+        'customer_lastname' => $booking->customer_lastname
     );
 
     //make JSON

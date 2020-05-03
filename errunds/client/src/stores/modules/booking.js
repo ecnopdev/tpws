@@ -48,14 +48,23 @@ export default {
         getAll: (context, params) => {
             const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
             const accessToken = context.rootState.user.accessToken;
+            const activeRole = context.rootState.user.activeRole;
 
-            return Vue.axios.get(`${apiPath}/booking/read_customer_bookings.php?customer_id=${params.id}`, {
-                headers: { 'Authorization': accessToken }
-            });
+            if(activeRole == "Worker"){
+                return Vue.axios.get(`${apiPath}/booking/read_worker_bookings.php?worker_id=${params.id}`, {
+                    headers: { 'Authorization': accessToken }
+                });
+            }else{
+                return Vue.axios.get(`${apiPath}/booking/read_customer_bookings.php?customer_id=${params.id}`, {
+                    headers: { 'Authorization': accessToken }
+                });
+            }
+
         },
         getByID: (context, params) => {
             const apiPath = `${context.rootState.apiHost}:${context.rootState.apiPort}${context.rootState.apiBasePath}`;
             const accessToken = context.rootState.user.accessToken;
+
 
             return Vue.axios.get(`${apiPath}/booking/read_single_booking.php?id=${params.id}`, {
                 headers: { 'Authorization': accessToken }

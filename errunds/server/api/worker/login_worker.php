@@ -32,10 +32,14 @@ $worker->password = $data->password;
 //get worker
 $worker->login_worker();
 
-
 //create array
 $user_array = array(
     'id' => $worker->id,
+    'first_name' => $worker->first_name,
+    'last_name' => $worker->last_name,
+    'email' => $worker->email,
+    'address' => $worker->address,
+    'contact' => $worker->contact,
     'username' => $worker->username,
     'password' => $worker->password,
 );

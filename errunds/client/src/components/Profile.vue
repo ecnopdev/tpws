@@ -5,6 +5,7 @@
         <h1>Profile Information</h1>
         <v-form>
         <p>Username: {{ userInfo.username }}</p>
+        <p>Role: {{ activeRole }}</p>
         <v-text-field label="First Name" v-model="userInfo.first_name"></v-text-field>
         <v-text-field label="Last Name" v-model="userInfo.last_name"></v-text-field>
         <v-text-field label="Address" v-model="userInfo.address"></v-text-field>
@@ -30,6 +31,9 @@ export default {
     computed: {
         activeUser () {
             return this.$store.getters["user/getActiveUser"];
+        },
+        activeRole () {
+            return this.$store.getters["user/getActiveRole"];
         }
     },
     beforeMount: function(){

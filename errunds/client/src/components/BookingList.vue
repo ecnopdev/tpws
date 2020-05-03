@@ -14,7 +14,7 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item.id)">mdi-pencil</v-icon>
-            <v-icon small v-if="item.status == 'pending'" @click="checkDelete(item.id)">mdi-delete</v-icon>
+            <v-icon small v-if="item.status == 'pending' && activeRole == 'Customer'" @click="checkDelete(item.id)">mdi-delete</v-icon>
           </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -75,12 +75,26 @@ export default {
   computed: {
     activeUser() {
       return this.$store.getters["user/getActiveUser"];
+    },
+    activeRole() {
+      return this.$store.getters["user/getActiveRole"];
     }
   },
   mounted: function() {
+    this.setHeaders();
     this.refreshItems();
   },
   methods: {
+    setHeaders(){
+      console.log(this.activeRole);
+      if(this.activeRole == "Worker"){
+        this.headers[1].text = "Customer Name"; 
+        this.headers[1].value = "customer_fullname";
+      }else{
+        this.headers[1].text = "Worker Name"; 
+        this.headers[1].value = "worker_fullname";
+      } 
+    },
     save() {},
     editItem(bookingID) {
       this.$router.push(`/booking/${bookingID}`);
@@ -123,6 +137,7 @@ export default {
         .dispatch("booking/getAll", this.activeUser)
         .then(results => {
           results.data.data.forEach(item => {
+            item.customer_fullname = `${item.customer_firstname} ${item.customer_lastname}`;
             item.worker_fullname = `${item.worker_firstname} ${item.worker_lastname}`;
             this.items.push(item);
           });

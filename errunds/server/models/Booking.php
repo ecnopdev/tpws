@@ -24,15 +24,18 @@ class Booking{
     $this->conn = $db;
   }
 
-  //get bookings
+  //get customer bookings
   public function read_customer_bookings(){
     $query = 'SELECT booking.id, booking.creation_date, booking.booking_date, 
                 booking.start_time, booking.end_time, booking.status, booking.rating, 
                 booking.comments, booking.customer_id, booking.worker_id, 
                 worker.id as worker_id, worker.first_name as worker_firstname, 
-                worker.last_name as worker_lastname 
+                worker.last_name as worker_lastname,
+                customer.id as customer_id, customer.first_name as customer_firstname, 
+                customer.last_name as customer_lastname  
                 FROM booking 
                 JOIN worker ON booking.worker_id = worker.id 
+                JOIN customer ON booking.customer_id = customer.id
                 WHERE booking.customer_id = ?';
 
 
@@ -49,6 +52,34 @@ class Booking{
 
   }
 
+//get customer bookings
+public function read_worker_bookings(){
+  $query = 'SELECT booking.id, booking.creation_date, booking.booking_date, 
+              booking.start_time, booking.end_time, booking.status, booking.rating, 
+              booking.comments, booking.customer_id, booking.worker_id, 
+              worker.id as worker_id, worker.first_name as worker_firstname, 
+              worker.last_name as worker_lastname,
+              customer.id as customer_id, customer.first_name as customer_firstname, 
+              customer.last_name as customer_lastname 
+              FROM booking 
+              JOIN worker ON booking.worker_id = worker.id 
+              JOIN customer ON booking.customer_id = customer.id
+              WHERE booking.worker_id = ?';
+
+
+  //prepare statement
+  $stmt = $this->conn->prepare($query);
+
+  //bind id
+  $stmt->bindParam(1, $this->worker_id);
+
+  //execute $query
+  $stmt->execute();
+
+  return $stmt;
+
+}
+
   // get single booking
   public function read_single_booking(){
     //create query
@@ -56,9 +87,12 @@ class Booking{
                 booking.start_time, booking.end_time, booking.status, booking.rating, 
                 booking.comments, booking.customer_id, booking.worker_id, 
                 worker.id as worker_id, worker.first_name as worker_firstname, 
-                worker.last_name as worker_lastname 
+                worker.last_name as worker_lastname,
+                customer.id as customer_id, customer.first_name as customer_firstname, 
+                customer.last_name as customer_lastname  
                 FROM booking 
-                JOIN worker ON booking.worker_id = worker.id 
+                JOIN worker ON booking.worker_id = worker.id
+                JOIN customer ON booking.customer_id = customer.id 
                 WHERE booking.id = ?';
 
 
@@ -86,6 +120,9 @@ class Booking{
     $this->customer_id = $row['customer_id'];
     $this->worker_firstname = $row['worker_firstname'];
     $this->worker_lastname = $row['worker_lastname'];
+
+    $this->customer_firstname = $row['customer_firstname'];
+    $this->customer_lastname = $row['customer_lastname'];
 
   }
 

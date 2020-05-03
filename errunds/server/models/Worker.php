@@ -26,7 +26,10 @@ class Worker{
   public function login_worker(){
   
     //create query
-    $query = 'SELECT worker.id, worker.username, worker.password 
+    $query = 'SELECT worker.id, worker.username, worker.password, 
+                     worker.first_name, worker.last_name, worker.email,
+                     worker.address, worker.contact, worker.average_rating,
+                     worker.job_id 
                 FROM worker 
                 WHERE worker.username = ?
                 AND worker.password = ?';
@@ -45,6 +48,12 @@ class Worker{
 
     //set properties
     $this->id = $row['id'];
+    $this->first_name = $row['first_name'];
+    $this->last_name = $row['last_name'];
+    $this->email = $row['email'];
+    $this->address = $row['address'];
+    $this->contact = $row['contact'];
+    $this->job_id = $row['job_id'];
     $this->username = $row['username'];
     $this->password = $row['password'];
 
